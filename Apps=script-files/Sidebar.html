@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>PurePlays Formatter Sidebar</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <base target="_top" />
+
+  <!-- Roboto Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      padding: 20px;
+      font-size: 13px;
+      color: #333;
+    }
+    h2 {
+      font-size: 18px;
+      margin-top: 0;
+    }
+    .section {
+      margin-bottom: 24px;
+    }
+    .section-title {
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+    button, select, input[type="checkbox"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 13px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      margin-top: 8px;
+      margin-bottom: 12px;
+    }
+    .btn {
+      background-color: #1a73e8;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background-color: #1662c1;
+    }
+    .pro {
+      background-color: #673ab7;
+    }
+    .pro:hover {
+      background-color: #5e35b1;
+    }
+    .preview-img {
+      width: 100%;
+      border: 1px solid #ccc;
+      margin-top: 6px;
+      border-radius: 4px;
+      transition: 0.2s ease;
+    }
+    .preview-img:hover {
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+    .status-box {
+      background-color: #f1f3f4;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      margin-bottom: 20px;
+      color: #444;
+    }
+    .footnote {
+      font-size: 11px;
+      color: #777;
+      text-align: center;
+      margin-top: 20px;
+    }
+    .footnote a {
+      color: #3367d6;
+      text-decoration: none;
+    }
+    @media screen and (max-width: 480px) {
+      button, select {
+        font-size: 12px;
+        padding: 8px;
+      }
+      .preview-img {
+        max-height: 180px;
+        height: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h2>PurePlays Formatter</h2>
+
+  <div class="status-box">
+    Status: <strong>Free User</strong><br>
+    Unlock premium layouts and smart tools.
+  </div>
+
+  <!-- Free Format -->
+  <div class="section">
+    <div class="section-title">🧼 Apply Standard Format</div>
+    <label><input type="checkbox" id="includeCleanup"> Trim whitespace & delete empty rows/columns</label>
+    <button class="btn" onclick="Formatter.applyStandardFormat()">Format My Sheet</button>
+  </div>
+
+  <!-- Pro Layout Presets -->
+  <div class="section">
+    <div class="section-title">🎨 Pro Layout Presets</div>
+    <select id="layout" title="Choose a layout preset" onchange="Formatter.updatePreviewImage()">
+      <option value="Corporate">Corporate</option>
+      <option value="Minimalist">Minimalist</option>
+      <option value="Colorful">Colorful</option>
+      <option value="Print">Print</option>
+      <option value="Casual">Casual</option>
+      <option value="EasyView">Easy View</option>
+    </select>
+    <button class="btn pro" onclick="Formatter.applyPro()">Apply Pro Layout</button>
+    <img id="layoutPreview" class="preview-img" src="https://assets.pure-plays.com/layouts/corporate_preview.png" alt="Corporate Layout Preview" />
+  </div>
+
+  <!-- Pro Tools -->
+  <div class="section">
+    <div class="section-title">🧪 Premium Tools</div>
+    <button class="btn pro" onclick="google.script.run.highlightDuplicates()">🧮 Highlight Duplicates</button>
+    <button class="btn pro" onclick="google.script.run.smartDateStyling()">📆 Smart Date Styling</button>
+  </div>
+
+  <!-- Upgrade CTA -->
+  <div class="section">
+    <div class="section-title">🚀 Unlock Everything</div>
+    <p style="font-size: 12px; color: #444;">
+      One-time upgrade, lifetime access. Instant formatting. Custom layouts.
+    </p>
+    <button class="btn pro" id="upgradeBtn" onclick="Formatter.upgradePro()">Upgrade to Pro – $9.99</button>
+  </div>
+
+  <div class="footnote">
+    <a href="https://pure-plays.com/privacy" target="_blank" rel="noopener">Privacy Policy</a> |
+    <a href="https://pure-plays.com/formatter-terms" target="_blank" rel="noopener">Terms</a> |
+    <a href="mailto:support@pure-plays.com">Support</a>
+  </div>
+
+  <script defer>
+    const Formatter = {
+      applyStandardFormat() {
+        if (document.getElementById("includeCleanup").checked) {
+          google.script.run.cleanUpSheet();
+        }
+        google.script.run.applySheetFormatting();
+        Formatter.toast("✅ Formatting applied.");
+      },
+
+      applyPro() {
+        const layout = document.getElementById("layout").value;
+        google.script.run.applyProLayout(layout);
+        Formatter.toast(`🎨 Applied Pro layout: ${layout}`);
+        document.getElementById("layoutPreview").alt = layout + " Layout Preview";
+      },
+
+      updatePreviewImage() {
+        const layout = document.getElementById("layout").value;
+        const imageMap = {
+          "Corporate": "https://assets.pure-plays.com/layouts/corporate_preview.png",
+          "Minimalist": "https://assets.pure-plays.com/layouts/minimalist_preview.png",
+          "Colorful": "https://assets.pure-plays.com/layouts/colorful_preview.png",
+          "Print": "https://assets.pure-plays.com/layouts/print_preview.png",
+          "Casual": "https://assets.pure-plays.com/layouts/casual_preview.png",
+          "EasyView": "https://assets.pure-plays.com/layouts/easyview_preview.png"
+        };
+        document.getElementById("layoutPreview").src = imageMap[layout];
+        document.getElementById("layoutPreview").alt = layout + " Layout Preview";
+      },
+
+      toast(message) {
+        alert(message);
+      }
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+Copyright © 2025 PurePlays
+
+All rights reserved. This software is proprietary and confidential.
+
+You may not reproduce, distribute, modify, reverse engineer, or sublicense any portion of this software without prior written permission.
+
+Licensed users are granted non-transferable, limited rights to use the PurePlays Formatter add-on per the agreed license terms.
+
+Unauthorized use may result in legal action and license termination.

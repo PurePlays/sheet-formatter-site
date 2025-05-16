@@ -1,0 +1,25 @@
+{
+  "timeZone": "America/New_York",
+  "exceptionLogging": "STACKDRIVER",
+  "runtimeVersion": "V8",
+  "oauthScopes": [
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/script.container.ui",
+    "https://www.googleapis.com/auth/script.external_request"
+  ],
+  "addOns": {
+    "common": {
+      "name": "PurePlays Formatter",
+      "logoUrl": "https://assets.pure-plays.com/logo128.png",
+      "useLocaleFromApp": true,
+      "homepageTrigger": {
+        "runFunction": "showSidebar"
+      }
+    },
+    "sheets": {
+      "homepageTrigger": {
+        "runFunction": "showSidebar"
+      }
+    }
+  }
+}
